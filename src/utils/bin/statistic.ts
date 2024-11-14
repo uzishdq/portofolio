@@ -1,11 +1,10 @@
-import { getGithubFollowers, getProjects, getVisitorCount } from "@/api"
+import { getGithubFollowers, getProjects } from "@/api"
 
 export const statistic = async (args: string[]): Promise<string> => {
   const repo = await getProjects()
-  const visitorCount = await getVisitorCount()
   const githubFollower = await getGithubFollowers()
 
-  return `    - Total visitors: ${visitorCount} 👀
+  return `
     - GitHub Followers: ${githubFollower} 👤💻  
     - GitHub Repo: ${repo.length} 📦
     - GitHub Stars: ${repo.reduce(

@@ -1,7 +1,6 @@
 export const about = async (args: string[]): Promise<string> => {
-  const bio = `I am a Full-Stack Developer with a deep passion for TypeScript 
-and a natural curiosity to explore all aspects of technology.
-My ultimate goal is to become an AI Engineer.`
+  const bio = `Hii, I'm fauji shidiq, a graduate of Indonesian Computer University with a degree in Information Systems and a GPA of 3.55.
+Specializing in web development, I bring a solid foundation in both front-end and back-end technologies. My passion also extends to data engineering, an area where I'm eager to expand my expertise.`
 
   return bio
 }

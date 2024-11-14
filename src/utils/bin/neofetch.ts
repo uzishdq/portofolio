@@ -1,8 +1,7 @@
 import { getMainColor, getPlatform } from "@/api"
-import { formatDistanceToNow } from "date-fns"
 
-import packageJson from "../../../package.json"
 import { isMobile } from "../isMobile"
+import { getInfo } from "./utils"
 
 const macos = `
                     'c.
@@ -80,40 +79,6 @@ const getArt = () => {
     case "Linux":
       return `<p style="color: ${mainColor}">${linux}</p>`
   }
-}
-
-const getInfo = () => {
-  const os = getPlatform()
-  const visitedAt = new Date(
-    localStorage.getItem("visitedAt") || new Date().toString()
-  )
-  const hostname = window.location.hostname
-  const theme = localStorage.getItem("theme")
-  const resolution = `${window.screen.availWidth}x${window.screen.availHeight}`
-  const packages = Object.keys(packageJson.dependencies)
-  const devPackages = Object.keys(packageJson.devDependencies)
-  const mainColor = getMainColor()
-
-  let message = ""
-
-  message += `<span style="color: ${mainColor}">Host</span>: ${hostname}\n`
-  message += `<span style="color: ${mainColor}">OS</span>: ${os}\n`
-  message += `<span style="color: ${mainColor}">Packages</span>: ${
-    packages.length + devPackages.length
-  } (npm)\n`
-  message += `<span style="color: ${mainColor}">Resolution</span>: ${resolution}\n`
-  message += `<span style="color: ${mainColor}">Shell</span>: Marjan | Terminal\n`
-  message += `<span style="color: ${mainColor}">Theme</span>: ${theme}\n`
-  message += `<span style="color: ${mainColor}">Version</span>: ${packageJson.version}\n`
-  message += `<span style="color: ${mainColor}">Uptime</span>: ${formatDistanceToNow(
-    visitedAt
-  )}\n`
-  message += `<span style="color: ${mainColor}">Author</span>: ${packageJson.author.name} (${packageJson.author.email})\n`
-  message += `<span style="color: ${mainColor}">License</span>: ${packageJson.license}\n`
-  message += `<span style="color: ${mainColor}">SupportMe</span>: <a href="${packageJson.funding.url}">${packageJson.funding.url}\n</a>`
-  message += `<span style="color: ${mainColor}">Source</span>: <a href="${packageJson.repository.url}">${packageJson.repository.url}\n</a>`
-
-  return message
 }
 
 export const neofetch = async (args?: string[]): Promise<string> => {

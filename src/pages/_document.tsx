@@ -23,20 +23,14 @@ class MyDocument extends Document {
             rel="icon"
             type="image/png"
             sizes="32x32"
-            href="/favicon-32x32.png"
-          />
-          <link
-            rel="icon"
-            type="image/png"
-            sizes="16x16"
-            href="/favicon-16x16.png"
+            href="/favicon-96x96.png"
           />
           <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
           <link rel="manifest" href="/manifest.json" />
           <meta name="theme-color" content="#b9e6da" />
           <meta
             name="description"
-            content="Marjan Terminal, a terminal-style portfolio built with Next.js and Tailwind CSS!"
+            content="uzishdq terminal, a terminal-style portfolio built with Next.js and Tailwind CSS!"
           />
         </Head>
 

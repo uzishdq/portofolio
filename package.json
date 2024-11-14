@@ -1,19 +1,14 @@
 {
-  "name": "marjan-terminal",
-  "version": "1.0.7",
-  "license": "MIT",
+  "name": "uzishdq-terminal",
+  "version": "1.0.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/Marj4n/terminal-portfolio"
   },
   "author": {
-    "name": "Marj4n",
-    "url": "https://nivekts.me",
-    "email": "kevinyf.ts@gmail.com"
-  },
-  "funding": {
-    "type": "ko-fi",
-    "url": "https://ko-fi.com/marj4n"
+    "name": "uzishdq",
+    "url": "https://legendary-engineer-e96.notion.site/Portfolio-1ffbc437b6654805abb6384c830d4e4d",
+    "email": "qqfauzi99@gmail.com"
   },
   "scripts": {
     "dev": "next dev",
@@ -32,7 +27,6 @@
     "cowsay-browser": "^1.1.8",
     "date-fns": "^2.28.0",
     "figlet": "^1.6.0",
-    "firebase": "^9.22.0",
     "lodash": "^4.17.21",
     "next": "^13.3.0",
     "react": "^18.1.0",
@@ -43,7 +37,6 @@
     "@ianvs/prettier-plugin-sort-imports": "^3.7.1",
     "@types/axios-curlirize": "^1.3.2",
     "@types/figlet": "^1.5.6",
-    "@types/firebase": "^3.2.1",
     "@types/lodash": "^4.14.194",
     "@types/node": "^17.0.12",
     "@types/react": "^18.0.22",

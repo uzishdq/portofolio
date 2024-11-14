@@ -1,15 +1,6 @@
 import config from "@/data/config.json"
 import themes from "@/data/themes.json"
-import { db } from "@/lib/firebase"
 import axios from "axios"
-import {
-  collection,
-  doc,
-  getDoc,
-  increment,
-  setDoc,
-  updateDoc,
-} from "firebase/firestore"
 
 export const getProjects = async () => {
   const { data } = await axios.get(
@@ -72,46 +63,6 @@ export const getMainColor = () => {
       return theme?.blue
     case "Linux":
       return theme?.red
-  }
-}
-
-export const getVisitorCount = async () => {
-  const countDocRef = doc(collection(db, "visitors"), "count")
-
-  try {
-    const countDocSnapshot = await getDoc(countDocRef)
-    if (countDocSnapshot.exists()) {
-      const count = countDocSnapshot.data().count
-      return count
-    } else {
-      return "Visitor count not available"
-    }
-  } catch (error) {
-    console.error("Error fetching visitor count:", error)
-  }
-}
-
-export const incrementVisitorCount = async () => {
-  if (process.env.NODE_ENV !== "production") {
-    console.log("Visitor count increment is only allowed in production mode.")
-    return
-  }
-
-  const countDocRef = doc(collection(db, "visitors"), "count")
-  console.log("Incrementing visitor count...")
-
-  try {
-    const countDocSnapshot = await getDoc(countDocRef)
-
-    if (countDocSnapshot.exists()) {
-      await updateDoc(countDocRef, { count: increment(1) })
-      console.log("Visitor count incremented successfully.")
-    } else {
-      await setDoc(countDocRef, { count: 1 })
-      console.log("Created count document with initial count of 1.")
-    }
-  } catch (error) {
-    console.error("Error incrementing visitor count:", error)
   }
 }
 
