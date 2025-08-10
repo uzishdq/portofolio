@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
+<rect width='100' height='100' fill='black'/>
+<text x='10' y='60' font-size='60' fill='lime' font-family='monospace'>&gt;_</text>
+</svg>"
+    />
+
+    <meta charset="UTF-8" />
+    <title>Retro Terminal Portfolio - uzishdq</title>
+    <style>
+      body {
+        background: #000;
+        color: #0f0;
+        font-family: "Courier New", monospace;
+        margin: 0;
+        padding: 20px;
+        overflow-y: auto;
+      }
+
+      #terminal {
+        max-width: 800px;
+        margin: auto;
+        position: relative;
+        z-index: 2;
+        filter: url("#crtFilter");
+      }
+
+      a {
+        color: #0ff;
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      strong {
+        color: #0ff;
+        text-decoration: none;
+      }
+
+      .prompt {
+        color: #0f0;
+        text-shadow: 0 0 5px #0f0, 0 0 10px #0f0;
+        margin-right: 5px;
+      }
+
+      #input-line {
+        display: flex;
+        align-items: center;
+      }
+
+      #cmd {
+        background: transparent;
+        border: none;
+        color: #0f0;
+        font: inherit;
+        outline: none;
+        flex: 1;
+        min-width: 50px;
+        text-shadow: 0 0 5px #0f0, 0 0 10px #0f0;
+      }
+
+      pre,
+      div {
+        text-shadow: 0 0 5px #0f0, 0 0 10px #0f0;
+      }
+
+      /* Scanlines */
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: repeating-linear-gradient(
+          to bottom,
+          rgba(0, 255, 0, 0.03) 0px,
+          rgba(0, 255, 0, 0.03) 1px,
+          transparent 2px,
+          transparent 3px
+        );
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      /* Flicker effect */
+      @keyframes flicker {
+        0%,
+        19%,
+        21%,
+        23%,
+        25%,
+        54%,
+        56%,
+        100% {
+          opacity: 1;
+        }
+        20%,
+        24%,
+        55% {
+          opacity: 0.8;
+        }
+      }
+      #terminal {
+        animation: flicker 2s infinite;
+      }
+
+      pre {
+        margin: 0;
+        color: #0f0;
+        white-space: pre;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- SVG filter for CRT effect -->
+    <svg width="0" height="0">
+      <filter id="crtFilter">
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.5"
+          numOctaves="1"
+          result="noise"
+        />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="0.5" />
+      </filter>
+    </svg>
+
+    <div id="terminal">
+      <div id="output"></div>
+      <div id="input-line">
+        <span class="prompt">uzishdq@portfolio:~$</span>
+        <input type="text" id="cmd" autofocus />
+      </div>
+    </div>
+
+    <script>
+      const output = document.getElementById("output");
+      const cmd = document.getElementById("cmd");
+
+      // Change this to your GitHub username
+      const githubUsername = "uzishdq";
+
+      const commands = [
+        "help",
+        "home",
+        "about",
+        "projects",
+        "showcase",
+        "skills",
+        "experience",
+        "contact",
+        "clear",
+      ];
+
+      const asciiArt = `
+        ,---------------------------,
+        |  /---------------------\\  |
+        | |                       | |
+        | | uzishdq@portfolio:~$  | |
+        | |                       | |
+        | |                       | |
+        | |                       | |
+        |  \\_____________________/  |
+        |___________________________|
+      ,---\\_____     []     _______/------,
+     /         /______________\\           /|
+    /___________________________________ /  | ___
+    |                                   |   |    )
+    |  _ _ _                 [-------]  |   |   (
+    |  o o o                 [-------]  |  /    _)_
+    |__________________________________ |/     /  /
+  /-------------------------------------/|    ( )/
+ /-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/ /
+/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/ /
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+`;
+
+      const commandList = `
+Available commands:
+  help       : Show this list
+  home       : Return to home screen
+  about      : About me
+  experience : Work & achievements
+  projects   : Show GitHub repositories
+  contact    : Contact info
+  clear      : Clear the screen
+`;
+
+      function scrollToBottom() {
+        window.scrollTo({
+          top: document.body.scrollHeight,
+          behavior: "smooth",
+        });
+      }
+
+      function typeAscii(text, speed, callback) {
+        const pre = document.createElement("pre");
+        output.appendChild(pre);
+        let i = 0;
+        const interval = setInterval(() => {
+          pre.textContent += text[i];
+          i++;
+          scrollToBottom();
+          if (i >= text.length) {
+            clearInterval(interval);
+            if (callback) callback();
+          }
+        }, speed);
+      }
+
+      function showHome() {
+        output.innerHTML = "";
+        typeAscii(asciiArt, 2, () => {
+          output.innerHTML += "<br><div>Welcome to my portfolio!</div>";
+          output.innerHTML +=
+            "<div>Type <span style='color:#0ff;'>help</span> to get started.</div><br>";
+          scrollToBottom();
+        });
+      }
+
+      async function fetchProjects() {
+        output.innerHTML += "<div>Fetching data from GitHub...</div>";
+        scrollToBottom();
+        try {
+          const res = await fetch(
+            `https://api.github.com/users/${githubUsername}/repos?sort=updated`
+          );
+          const repos = await res.json();
+          if (repos.length === 0) {
+            output.innerHTML += "<div>No public repositories found.</div><br>";
+          } else {
+            let list = repos
+              .map(
+                (repo, i) =>
+                  `${i + 1}. <a href="${repo.html_url}" target="_blank">${
+                    repo.name
+                  }</a> - ${repo.description || "No description"}`
+              )
+              .join("<br>");
+            output.innerHTML += `<div>${list}</div><br>`;
+          }
+          scrollToBottom();
+        } catch (err) {
+          output.innerHTML += `<div>Failed to fetch from GitHub: ${err}</div>`;
+          scrollToBottom();
+        }
+      }
+
+      window.onload = showHome;
+
+      cmd.addEventListener("keydown", function (e) {
+        if (e.key === "Tab") {
+          e.preventDefault();
+          const inputVal = cmd.value;
+          const match = commands.find((c) => c.startsWith(inputVal));
+          if (match) cmd.value = match;
+        }
+      });
+
+      cmd.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") {
+          const command = cmd.value.trim();
+          output.innerHTML += `<div><span class="prompt">guest@portfolio:~$</span> ${command}</div>`;
+          processCommand(command);
+          cmd.value = "";
+          scrollToBottom();
+        }
+      });
+
+      function processCommand(command) {
+        let response = "";
+        switch (command) {
+          case "help":
+            response = commandList;
+            break;
+          case "home":
+            showHome();
+            return;
+          case "about":
+            response = `<br>Hi, I’m a full-stack web developer who loves crafting apps that not only work, but feel great to use. From designing sleek interfaces with Next.js and Shadcn UI to building robust back-ends with PostgreSQL and Drizzle, I enjoy the full journey of bringing ideas to life. When I’m not coding, I’m usually exploring new tools, fine-tuning my workflow, or sketching out the next project that excites me.
+            <br>
+            Languages:JavaScript, TypeScript, Php, SQL, Python
+            Frameworks:React, Laravel, Next.js, Node.js, Express, Tailwind CSS
+            Tools:Git, Vercel, Figma
+            <br>View my Resume here: <a href="https://drive.google.com/file/d/1n7mM-9X-GuN45VguFULKuNbgsn7kELEK/view?usp=sharing" target="_blank">Resume</a>`;
+            break;
+          case "experience":
+            response = `<br><strong>Work Experience:</strong><br>
+                  - 2023–Now: Freelance Full-stack Developer<br>
+                  - 2023: Full-stack Developer at PT.PINS Indonesia<br>
+                  <strong>Achievements:</strong><br>
+                  - <a href="https://drive.google.com/file/d/10LvrJp06CFEJNUZ-okCWY3_Qa9RmMSR6/view" target="_blank">Big Data using Python 2022</a><br>
+                  - <a href="https://drive.google.com/file/d/10LvrJp06CFEJNUZ-okCWY3_Qa9RmMSR6/view" target="_blank">Junior Web Programmer</a>`;
+            break;
+          case "contact":
+            response = `<br>Email: <a href="mailto:qqfauzi99@gmail.com">qqfauzi99@gmail.com</a>
+                  LinkedIn: <a href="https://www.linkedin.com/in/fauji-shiddiq/" target="_blank">linkedin.com/in/fauji-shiddiq</a>
+                  GitHub: <a href="https://github.com/uzishdq" target="_blank">github.com/uzishdq</a>`;
+            break;
+          case "projects":
+            fetchProjects();
+            return;
+          case "clear":
+            output.innerHTML = "";
+            return;
+          default:
+            response = `Unknown command: ${command}`;
+        }
+        output.innerHTML += `<div>${response.replace(/\n/g, "<br>")}</div><br>`;
+        scrollToBottom();
+      }
+    </script>
+  </body>
+</html>
