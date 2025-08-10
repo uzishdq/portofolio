@@ -3,7 +3,7 @@
 Welcome to my **Retro Terminal Portfolio** — a unique, command-line inspired personal website that runs entirely in your browser.  
 Type commands, explore my projects, and feel like you're inside a vintage terminal.
 
-![Preview](https://via.placeholder.com/800x400?text=Terminal+Portfolio+Preview)
+![Preview](preview.png)
 
 ---
 
@@ -25,7 +25,7 @@ Type commands, explore my projects, and feel like you're inside a vintage termin
 
 ## 🚀 Demo
 
-Live demo: [**Click here**](https://username.github.io/portfolio-terminal)
+Live demo: [**Click here**](https://uzishdq.github.io/portofolio/)
 
 ---
 
@@ -33,7 +33,7 @@ Live demo: [**Click here**](https://username.github.io/portfolio-terminal)
 
 ```bash
 # Clone this repository
-git clone https://github.com/username/portfolio-terminal.git
+git clone https://github.com/uzishdq/portofolio.git
 
 # Open in your browser
 open index.html
